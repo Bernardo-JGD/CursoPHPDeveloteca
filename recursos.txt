@@ -1,0 +1,5 @@
+Documentación oficial de php 
+https://www.php.net/manual/es/
+
+funciones :
+https://www.php.net/manual/es/funcref
