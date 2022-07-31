@@ -2,9 +2,24 @@
 <?php include("conexion.php"); ?>
 <?php 
 
+    if($_POST){
+        //print_r($_POST);
+        $nombre = $_POST['nombre'];
+        $objConexion = new conexion();
+        $sql="INSERT INTO `proyectos` (`id`, `nombre`, `imagen`, `descripcion`) VALUES (NULL, '$nombre', 'imagen.jpg', 'Insercion de ejemplo 1');";
+        $objConexion->ejecutar($sql);
+    }
+
+    if($_GET){
+        $id=$_GET['borrar'];
+        $objConexion = new conexion();
+        $sql = "DELETE FROM `proyectos` WHERE `proyectos`.`id` =".$id;
+        $objConexion->ejecutar($sql);
+    }
+
     $objConexion = new conexion();
-    $sql="INSERT INTO `proyectos` (`id`, `nombre`, `imagen`, `descripcion`) VALUES (NULL, 'Proyecto 1', 'imagen.jpg', 'Insercion de ejemplo 1');";
-    $objConexion->ejecutar($sql);
+    $proyectos = $objConexion->consultar("SELECT * FROM `proyectos`");
+    //print_r($proyectos);
 
 ?>
 
@@ -21,7 +36,7 @@
                     </div>
 
                     <div class="card-body" >
-                        <form action="portafolio.php" method="post" >
+                        <form action="portafolio.php" method="post" enctype="multipart/form-data" >
                             
                             Nombre del proyecto:
                             <input class="form-control" type="text" name="nombre" id="" />
@@ -44,14 +59,20 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Imagen</th>
+                            <th>Descripcion</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach($proyectos as $proyecto){ ?>
                         <tr>
-                            <td>3</td>
-                            <td>Aplicacion web</td>
-                            <td>imagen.jpg</td>
+                            <td> <?php echo $proyecto['id']; ?> </td>
+                            <td> <?php echo $proyecto['nombre']; ?> </td>
+                            <td> <?php echo $proyecto['imagen']; ?> </td>
+                            <td> <?php echo $proyecto['descripcion']; ?> </td>
+                            <td> <a class="btn btn-danger" href="?borrar=<?php echo$proyecto['id']; ?>"  >Eliminar</a> </td>
                         </tr>
+                        <?php } ?>    
                     </tbody>
                 </table>
             </div>

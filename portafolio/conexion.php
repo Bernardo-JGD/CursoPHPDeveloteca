@@ -25,6 +25,12 @@
             return $this->conexion->lastInsertId();//retorna el id insertado
         }
 
+        public function consultar($sql){
+            $sentencia = $this->conexion->prepare($sql);
+            $sentencia->execute();
+            return $sentencia->fetchAll();
+        }
+
     }
 
 ?>
